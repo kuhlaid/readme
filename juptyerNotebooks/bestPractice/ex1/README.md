@@ -60,7 +60,7 @@ import os
 # @title This is were we place the bulk of our code so functions can easily access the notebook configuration, database connections, etc.
 class Worker:
     def __init__(self, strConfigFileName):
-        f = open ("_config.json", "r") # read the notebook configuration settings
+        f = open (strConfigFileName, "r") # read the notebook configuration settings
         self._config = json.loads(f.read()) # save the configuration to a `_config` variable within the Worker object
         f.close()
 
@@ -100,12 +100,12 @@ One of the first Python blocks I create is an 'installer' block which reads our 
 
 ```(Python code block)
 print("Install things and initialize our Worker object")
-import installer   # this is only if we need to install some additional packages we define within `_installer.py`.
+import _installer   # this is only if we need to install some additional packages we define within `_installer.py`.
 %load_ext autoreload
 %autoreload all
 # we need the 'autoreload' above if we are actively making changes to the worker.py module and want to reload any changes to the module without restarting the notebook kernel
 
-from worker import Worker
+from _worker import Worker
 objWorker = Worker("_config.dev.json") # we should only need to call this once for the notebook session (to load our dev configuration)
 print("- finished installing and importing modules")
 ```
