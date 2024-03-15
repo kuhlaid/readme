@@ -80,7 +80,7 @@ class Worker:
 
 ### `_installer.py`
 
-One final script that most probably do not need is 
+One final script that most probably do not need is an installer script for installing additional packages, but I include it simply as an example.
 
 ```
 # this script takes care of installing extra modules
