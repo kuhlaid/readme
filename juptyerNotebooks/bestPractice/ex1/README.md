@@ -13,7 +13,7 @@ For power users of Juptyer notebooks, there probably comes a time when your note
 the notebook content? For me, the worker code is best left out of the notebook file, and especially any notebook configuration where you are dealing with sensitive database or API credentials which should not be saved
 to a source-control repository. So what could this configuration look like? We will start with the configuration file.
 
-### _config.dev.json (or maybe _config.prod.json or _config.test.json)
+### `_config.dev.json` (or maybe `_config.prod.json` or `_config.test.json`)
 
 I store all of my notebook configuration within a JSON file. This allows for easy parsing of the object using Python since it is simple formatted text. So my database, API tokens, or other credentials, any paths or values specific to my environment would go here. This makes your notebook reusable by others or other environments (think development, test, and production environments for yourself) without needing to necessarily change your notebook code. 
 
@@ -40,10 +40,10 @@ I store all of my notebook configuration within a JSON file. This allows for eas
 }
 ```
 
-### _worker.py
+### `_worker.py`
 
 Next, we move on to the scripting file. Personally I use Python for most of my work, so this example will only cover Python within a Jupyter notebook. When I was first learning Jupyter I placed all of the Python code 
-within the notebook. When I outgrew that I switched to this external Python file for storing my 'working' code. This is the code that performs operations for the notebook.
+within the notebook. When I outgrew that I switched to this external Python file for storing my 'working' code. This is the code that performs operations for the notebook. Note this script contains the import statements needed for the notebook.
 
 ```
 # @title Here we create a main working object so our configuration and database connections can more easily integrate. Also separating the code from the notebooks makes it easier to read and manage the notebook.
@@ -76,7 +76,7 @@ class Worker:
 # --- end class Worker
 ```
 
-### _installer.py
+### `_installer.py`
 
 One final script that most probably do not need is 
 
@@ -94,9 +94,9 @@ install("pymysql")
 
 ### Notebook
 
-One of the first Python blocks I create is the `installer` block which reads our notebook configuration and installs any packages or modules the notebook requires. I like to begin and end my code blocks with simple print statements so I can easily see when the block begins and ends execution (without needing to rely on knowing where the 'working' icon is located within the Jupyter interactive environment such as JupyterLab or Google Colab).
+One of the first Python blocks I create is an 'installer' block which reads our notebook configuration and installs any packages or modules the notebook requires. I like to begin and end my code blocks with simple print statements so I can easily see when the code begins and ends execution (without needing to rely on knowing where the 'working' icon is located within the Jupyter interactive environment such as JupyterLab or Google Colab).
 
-```
+```(Python code block)
 print("Install things and initialize our Worker object")
 import installer   # this is only if we need to install some additional packages we define within `_installer.py`.
 %load_ext autoreload
@@ -108,8 +108,8 @@ objWorker = Worker("_config.dev.json") # we should only need to call this once f
 print("- finished installing and importing modules")
 ```
 
-Then additional code blocks would simply call a function within the Worker objects such as:
+Then additional Python code blocks would simply call a function within the Worker objects such as:
 
-```
-objWorker.getAbout() # which simply prints `The purpose of this project is to show how to configure a Jupyter notebook for more advanced operations and management.`
+```(Python code block)
+objWorker.getAbout() # which simply prints `The purpose of this project is to show how to configure a Jupyter notebook for more advanced operations and management.` from our configuration file
 ```
